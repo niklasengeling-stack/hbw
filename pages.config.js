@@ -1,0 +1,51 @@
+module.exports = [
+  {
+    slug: "index",
+    title: "Hüser Bruckmaier Wastl – Rechtsanwälte, Notare, Fachanwälte in Unna",
+    description: "Ihr Ansprechpartner für Rechtsfragen und notarielle Tätigkeiten in Unna. Seit über 50 Jahren an Ihrer Seite.",
+    navKey: "start",
+    contentFile: "index.content.html",
+  },
+  {
+    slug: "team",
+    title: "Team – Hüser Bruckmaier Wastl",
+    description: "Acht Berufsträger, ein Anspruch: Lernen Sie das Kanzlei-Team von Hüser Bruckmaier Wastl kennen.",
+    navKey: "team",
+    contentFile: "team.content.html",
+  },
+  {
+    slug: "rechtsgebiete",
+    title: "Rechtsgebiete – Hüser Bruckmaier Wastl",
+    description: "Recht für jede Lebenslage: unsere Rechtsgebiete im Überblick, geordnet nach Themen statt Paragrafen.",
+    navKey: "rechtsgebiete",
+    contentFile: "rechtsgebiete.content.html",
+  },
+  {
+    slug: "notare",
+    title: "Notare – Hüser Bruckmaier Wastl",
+    description: "Notarielle Beurkundung, Immobilien, Gesellschaftsgründungen, Erbfallregelungen – unsere Notare in Unna.",
+    navKey: "notare",
+    contentFile: "notare.content.html",
+  },
+  {
+    slug: "ueber-uns",
+    title: "Über uns – Hüser Bruckmaier Wastl",
+    description: "Seit mehr als 50 Jahren in Unna: unsere Geschichte, unsere Werte, unser Standort.",
+    navKey: "ueber-uns",
+    contentFile: "ueber-uns.content.html",
+  },
+  {
+    slug: "impressum",
+    title: "Impressum – Hüser Bruckmaier Wastl",
+    description: "Impressum von Hüser Bruckmaier Wastl, Rechtsanwälte Notare Fachanwälte, Unna.",
+    navKey: "",
+    contentFile: "impressum.content.html",
+  },
+  {
+    slug: "datenschutz",
+    title: "Datenschutz – Hüser Bruckmaier Wastl",
+    description: "Datenschutzerklärung von Hüser Bruckmaier Wastl.",
+    navKey: "",
+    contentFile: "datenschutz.content.html",
+  },
+];
