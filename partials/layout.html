@@ -15,6 +15,12 @@
 <link rel="stylesheet" href="/styles/main.css" />
 </head>
 <body>
+<div class="page-transition" data-page-transition aria-hidden="true"></div>
+<script>
+  if (sessionStorage.getItem("hbw-transition") === "1") {
+    document.querySelector("[data-page-transition]").classList.add("is-covering");
+  }
+</script>
 <div class="cursor-dot" aria-hidden="true"></div>
 {{HEADER}}
 <main>

@@ -1,6 +1,51 @@
 // HBW – shared site behaviour (vanilla JS, no dependencies)
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Page transitions (Brand-Wipe in Petrol, wie ein Dach, das sich schließt/öffnet)
+  const transitionOverlay = document.querySelector("[data-page-transition]");
+  if (transitionOverlay) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DURATION = 480;
+
+    const isInternalLink = (link) => {
+      if (!link || !link.href) return false;
+      if (link.target && link.target !== "_self") return false;
+      if (link.hasAttribute("download")) return false;
+      if (link.origin !== window.location.origin) return false;
+      if (link.protocol === "mailto:" || link.protocol === "tel:") return false;
+      if (link.hash && link.pathname === window.location.pathname) return false;
+      return true;
+    };
+
+    if (sessionStorage.getItem("hbw-transition") === "1") {
+      sessionStorage.removeItem("hbw-transition");
+      if (reduceMotion) {
+        transitionOverlay.classList.remove("is-covering");
+      } else {
+        requestAnimationFrame(() => {
+          transitionOverlay.classList.add("is-animating");
+          requestAnimationFrame(() => transitionOverlay.classList.remove("is-covering"));
+        });
+      }
+    }
+
+    document.addEventListener("click", (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = e.target.closest("a[href]");
+      if (!isInternalLink(link)) return;
+      e.preventDefault();
+      sessionStorage.setItem("hbw-transition", "1");
+      if (reduceMotion) {
+        window.location.href = link.href;
+        return;
+      }
+      transitionOverlay.classList.add("is-animating", "is-covering");
+      setTimeout(() => {
+        window.location.href = link.href;
+      }, DURATION);
+    });
+  }
+
   // Footer year
   const y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();

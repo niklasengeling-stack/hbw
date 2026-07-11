@@ -578,6 +578,20 @@ a {
   * { cursor: none !important; }
 }
 
+/* ---------- Page transition ---------- */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: var(--petrol-900);
+  pointer-events: none;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  will-change: transform;
+}
+.page-transition.is-animating { transition: transform 0.5s cubic-bezier(.76,0,.24,1); }
+.page-transition.is-covering { transform: scaleY(1); }
+
 /* ---------- Utility ---------- */
 .text-center { text-align: center; }
 .mt-0 { margin-top: 0; }
