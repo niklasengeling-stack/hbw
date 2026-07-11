@@ -130,21 +130,11 @@ a {
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
   color: var(--petrol-900);
 }
-.brand__mark { width: 40px; height: auto; }
-.brand__word {
-  font-weight: var(--fw-bold);
-  font-size: 0.95rem;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-}
-.brand__divider {
-  width: 1px;
-  height: 34px;
-  background: var(--petrol-900);
-  opacity: 0.25;
+.brand__wordmark { height: 44px; width: auto; display: block; }
+@media (max-width: 480px) {
+  .brand__wordmark { height: 36px; }
 }
 
 .nav {
@@ -231,7 +221,7 @@ a {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
-  background: var(--petrol-900);
+  background: var(--white);
 }
 @media (max-width: 860px) {
   .card-grid { grid-template-columns: 1fr; }
@@ -307,10 +297,34 @@ a {
 
 .tabs__panels { display: grid; grid-template-columns: 1fr 1fr; min-height: 320px; }
 @media (max-width: 860px) { .tabs__panels { grid-template-columns: 1fr; } }
-.tabs__panel { display: none; background: var(--petrol-900); padding: 40px; flex-direction: column; justify-content: center; gap: 14px; }
-.tabs__panel.is-active { display: flex; }
-.tabs__image { display: none; position: relative; }
-.tabs__image.is-active { display: block; }
+.tabs__panel {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  background: var(--petrol-900);
+  padding: 40px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateX(-14px);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.tabs__panel.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.tabs__image {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.tabs__image.is-active { opacity: 1; }
+@media (max-width: 860px) {
+  .tabs__panel { grid-row: 1; grid-column: 1; }
+  .tabs__image { grid-row: 2; grid-column: 1; }
+}
 .tabs__image::after {
   content: "";
   position: absolute;
@@ -346,14 +360,17 @@ a {
   transition: background 0.15s ease, transform 0.15s ease;
 }
 .icon-btn:hover { background: var(--sage-200); transform: translateY(-2px); }
-.icon-btn:hover svg { stroke: var(--petrol-900); }
-.icon-btn svg { width: 20px; height: 20px; stroke: var(--white); fill: none; transition: stroke 0.15s ease; }
+.icon-btn:hover i { color: var(--petrol-900); }
+.icon-btn i { font-size: 20px; color: var(--white); transition: color 0.15s ease; }
+.icon-btn svg { width: 20px; height: 20px; fill: currentColor; color: var(--white); transition: color 0.15s ease; }
+.icon-btn:hover svg { color: var(--petrol-900); }
 
 /* ---------- Sidebar (Bürozeiten/Kontakt) ---------- */
 .sidebar {
   background: var(--sage-200);
   color: var(--petrol-900);
   padding: 28px 32px;
+  margin-top: 26px;
 }
 .sidebar h3 { font-size: 1rem; margin-bottom: 0.4em; }
 .sidebar p { margin: 0 0 1.1em; font-size: 0.92rem; }
@@ -415,7 +432,7 @@ a {
   color: var(--petrol-900);
   font-weight: var(--fw-semibold);
   font-size: 0.9rem;
-  border-radius: 999px;
+  border-radius: 0;
   cursor: default;
   user-select: none;
 }
@@ -463,9 +480,77 @@ a {
   padding: 10px 16px;
   background: var(--sage-200);
   color: var(--petrol-900);
-  border-radius: 4px;
+  border-radius: 0;
   font-size: 0.92rem;
   font-weight: var(--fw-semibold);
+}
+
+/* ---------- Profile contact / secretariat (dark) ---------- */
+.profile-contact {
+  background: var(--petrol-700);
+  color: var(--white);
+  padding: 28px 32px;
+}
+.profile-contact h3 { font-size: 1rem; margin-bottom: 0.4em; color: var(--white); }
+.profile-contact p { margin: 0 0 1.1em; font-size: 0.92rem; }
+.profile-contact a.link-underline { color: var(--sage-200); }
+.profile-contact a.link-underline:hover { color: var(--white); }
+
+.secretary-block { margin-top: 16px; }
+.secretary-list { display: grid; gap: 4px; margin-top: 12px; }
+.secretary-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--petrol-900);
+  padding: 12px 16px;
+}
+.secretary-card__photo {
+  width: 48px; height: 60px;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: center 18%;
+  flex-shrink: 0;
+}
+.secretary-card__body { display: flex; flex-direction: column; justify-content: center; }
+.secretary-card__name { display: block; margin: 0 0 4px; font-size: 0.9rem; font-weight: var(--fw-semibold); color: var(--white); }
+.secretary-card a { display: block; font-size: 0.82rem; color: var(--sage-200); line-height: 1.5; }
+.secretary-card a:hover { color: var(--white); }
+
+/* ---------- Custom cursor ---------- */
+.cursor-dot {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--teal-500);
+  background: transparent;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.22s cubic-bezier(.2,.8,.2,1), height 0.22s cubic-bezier(.2,.8,.2,1), border-color 0.22s ease;
+  will-change: transform;
+}
+.cursor-dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage-200);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease;
+}
+.cursor-dot.is-hover { width: 34px; height: 34px; border-color: var(--sage-200); }
+.cursor-dot.is-hover::after { opacity: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .cursor-dot { display: block; }
+  * { cursor: none !important; }
 }
 
 /* ---------- Utility ---------- */

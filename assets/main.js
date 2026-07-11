@@ -9,9 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".nav-toggle");
   const nav = document.getElementById("primary-nav");
   if (toggle && nav) {
+    const icon = toggle.querySelector("i");
     toggle.addEventListener("click", () => {
       const open = nav.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (icon) icon.className = open ? "ri-close-line" : "ri-menu-line";
     });
   }
 
@@ -63,4 +65,35 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     counters.forEach((el) => observer.observe(el));
   }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // Custom round cursor (brand colors)
+  const cursor = document.querySelector(".cursor-dot");
+  if (cursor && hasFinePointer && !reduceMotion) {
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let cx = mx;
+    let cy = my;
+
+    window.addEventListener("mousemove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+
+    const raf = () => {
+      cx += (mx - cx) * 0.18;
+      cy += (my - cy) * 0.18;
+      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+
+    document.querySelectorAll("a, button").forEach((el) => {
+      el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
+      el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
+    });
+  }
+
 });
