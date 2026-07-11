@@ -109,19 +109,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Tabs component (Werte / Feature tabs) – Text + Bild als ein Element
+  // Tabs component (Werte / Feature slider) – Pfeile + Fortschrittsbalken, Text + Bild als ein Element
   document.querySelectorAll("[data-tabs]").forEach((tabsEl) => {
-    const buttons = tabsEl.querySelectorAll("[data-tab-btn]");
-    const pairs = tabsEl.querySelectorAll("[data-tab-pair]");
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const key = btn.getAttribute("data-tab-btn");
-        buttons.forEach((b) => b.classList.toggle("is-active", b === btn));
-        pairs.forEach((p) =>
-          p.classList.toggle("is-active", p.getAttribute("data-tab-pair") === key)
-        );
+    const buttons = Array.from(tabsEl.querySelectorAll("[data-tab-btn]"));
+    const pairs = Array.from(tabsEl.querySelectorAll("[data-tab-pair]"));
+    const titleEl = tabsEl.querySelector("[data-tab-title]");
+    const prevBtn = tabsEl.querySelector("[data-tab-prev]");
+    const nextBtn = tabsEl.querySelector("[data-tab-next]");
+
+    const activate = (key) => {
+      buttons.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-tab-btn") === key));
+      pairs.forEach((p) => {
+        const isActive = p.getAttribute("data-tab-pair") === key;
+        p.classList.toggle("is-active", isActive);
+        if (isActive && titleEl) titleEl.textContent = p.getAttribute("data-tab-title-text") || "";
       });
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => activate(btn.getAttribute("data-tab-btn")));
     });
+
+    const step = (dir) => {
+      const currentIndex = buttons.findIndex((b) => b.classList.contains("is-active"));
+      const nextIndex = (currentIndex + dir + buttons.length) % buttons.length;
+      activate(buttons[nextIndex].getAttribute("data-tab-btn"));
+    };
+
+    if (prevBtn) prevBtn.addEventListener("click", () => step(-1));
+    if (nextBtn) nextBtn.addEventListener("click", () => step(1));
   });
 
   // Count-up animation (Fakten stat cards)

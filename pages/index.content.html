@@ -28,44 +28,55 @@
   <div class="container">
     <span class="eyebrow">Wie wir arbeiten</span>
     <h2 style="margin-bottom:1.2em;">Vier Grundsätze unserer Beratung</h2>
-    <div class="tabs__nav">
-      <button data-tab-btn="zuhoeren" class="is-active"><span class="tabs__nav-num">01</span><span class="tabs__nav-text">Zuhören und verstehen</span></button>
-      <button data-tab-btn="klar"><span class="tabs__nav-num">02</span><span class="tabs__nav-text">Klar beraten</span></button>
-      <button data-tab-btn="sicherheit"><span class="tabs__nav-num">03</span><span class="tabs__nav-text">Sicherheit schaffen</span></button>
-      <button data-tab-btn="verantwortung"><span class="tabs__nav-num">04</span><span class="tabs__nav-text">Verantwortung übernehmen</span></button>
-    </div>
-    <div class="tabs__panels">
-      <div class="tabs__pair is-active" data-tab-pair="zuhoeren">
-        <div class="tabs__panel">
-          <h3>Zuhören und verstehen</h3>
-          <p>Jede Rechtsfrage hat eine Geschichte davor. Bevor wir beraten, hören wir zu – und verstehen, was für Sie wirklich auf dem Spiel steht.</p>
-          <a href="/team.html" class="link-underline">Team kennenlernen</a>
-        </div>
-        <div class="tabs__image"><img src="/assets/images/detail-01.jpg" alt="" /></div>
+    <div class="slider">
+      <div class="slider__head">
+        <button type="button" class="slider__arrow" data-tab-prev aria-label="Vorheriger Grundsatz">
+          <i class="ri-arrow-left-line" aria-hidden="true"></i>
+        </button>
+        <h3 class="slider__title" data-tab-title>Zuhören und verstehen</h3>
+        <button type="button" class="slider__arrow" data-tab-next aria-label="Nächster Grundsatz">
+          <i class="ri-arrow-right-line" aria-hidden="true"></i>
+        </button>
       </div>
-      <div class="tabs__pair" data-tab-pair="klar">
-        <div class="tabs__panel">
-          <h3>Klar beraten</h3>
-          <p>Paragrafen sind unser Handwerk, nicht unsere Sprache. Wir übersetzen Recht in klare Optionen – verständlich, ohne Umwege.</p>
-          <a href="/rechtsgebiete.html" class="link-underline">Rechtsgebiete ansehen</a>
-        </div>
-        <div class="tabs__image"><img src="/assets/images/detail-02.jpg" alt="" /></div>
+      <div class="slider__progress" role="tablist">
+        <button type="button" class="slider__segment is-active" data-tab-btn="zuhoeren" role="tab" aria-label="Zuhören und verstehen"></button>
+        <button type="button" class="slider__segment" data-tab-btn="klar" role="tab" aria-label="Klar beraten"></button>
+        <button type="button" class="slider__segment" data-tab-btn="sicherheit" role="tab" aria-label="Sicherheit schaffen"></button>
+        <button type="button" class="slider__segment" data-tab-btn="verantwortung" role="tab" aria-label="Verantwortung übernehmen"></button>
       </div>
-      <div class="tabs__pair" data-tab-pair="sicherheit">
-        <div class="tabs__panel">
-          <h3>Sicherheit schaffen</h3>
-          <p>Ein Vertrag, eine Beurkundung, ein Urteil: Wir sorgen für Lösungen, die tragen – heute und in den Jahren danach.</p>
-          <a href="/notare.html" class="link-underline">Notariat entdecken</a>
+      <div class="tabs__panels">
+        <div class="tabs__pair is-active" data-tab-pair="zuhoeren" data-tab-title-text="Zuhören und verstehen">
+          <div class="tabs__panel">
+            <h3>Zuhören und verstehen</h3>
+            <p>Jede Rechtsfrage hat eine Geschichte davor. Bevor wir beraten, hören wir zu – und verstehen, was für Sie wirklich auf dem Spiel steht.</p>
+            <a href="/team.html" class="link-underline">Team kennenlernen</a>
+          </div>
+          <div class="tabs__image"><img src="/assets/images/detail-01.jpg" alt="" /></div>
         </div>
-        <div class="tabs__image"><img src="/assets/images/detail-03.jpg" alt="" /></div>
-      </div>
-      <div class="tabs__pair" data-tab-pair="verantwortung">
-        <div class="tabs__panel">
-          <h3>Verantwortung übernehmen</h3>
-          <p>Acht Berufsträgerinnen und Berufsträger, ein Name, ein Anspruch: Wir stehen persönlich ein für das, was wir raten – seit über 50 Jahren an einem Ort.</p>
-          <a href="/ueber-uns.html" class="link-underline">Über uns lesen</a>
+        <div class="tabs__pair" data-tab-pair="klar" data-tab-title-text="Klar beraten">
+          <div class="tabs__panel">
+            <h3>Klar beraten</h3>
+            <p>Paragrafen sind unser Handwerk, nicht unsere Sprache. Wir übersetzen Recht in klare Optionen – verständlich, ohne Umwege.</p>
+            <a href="/rechtsgebiete.html" class="link-underline">Rechtsgebiete ansehen</a>
+          </div>
+          <div class="tabs__image"><img src="/assets/images/detail-02.jpg" alt="" /></div>
         </div>
-        <div class="tabs__image"><img src="/assets/images/detail-04.jpg" alt="" /></div>
+        <div class="tabs__pair" data-tab-pair="sicherheit" data-tab-title-text="Sicherheit schaffen">
+          <div class="tabs__panel">
+            <h3>Sicherheit schaffen</h3>
+            <p>Ein Vertrag, eine Beurkundung, ein Urteil: Wir sorgen für Lösungen, die tragen – heute und in den Jahren danach.</p>
+            <a href="/notare.html" class="link-underline">Notariat entdecken</a>
+          </div>
+          <div class="tabs__image"><img src="/assets/images/detail-03.jpg" alt="" /></div>
+        </div>
+        <div class="tabs__pair" data-tab-pair="verantwortung" data-tab-title-text="Verantwortung übernehmen">
+          <div class="tabs__panel">
+            <h3>Verantwortung übernehmen</h3>
+            <p>Acht Berufsträgerinnen und Berufsträger, ein Name, ein Anspruch: Wir stehen persönlich ein für das, was wir raten – seit über 50 Jahren an einem Ort.</p>
+            <a href="/ueber-uns.html" class="link-underline">Über uns lesen</a>
+          </div>
+          <div class="tabs__image"><img src="/assets/images/detail-04.jpg" alt="" /></div>
+        </div>
       </div>
     </div>
   </div>
