@@ -188,8 +188,9 @@ a {
   overflow: hidden;
 }
 .hero__image {
+  display: block;
   width: 100%;
-  height: clamp(280px, 46vw, 520px);
+  height: clamp(320px, 54vw, 620px);
   object-fit: cover;
   opacity: 0.9;
 }
@@ -294,6 +295,18 @@ a {
 }
 .tabs__nav button.is-active { opacity: 1; }
 .tabs__nav button.is-active::after { transform: scaleX(1); }
+@media (max-width: 640px) {
+  .tabs__nav {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 22px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs__nav::-webkit-scrollbar { display: none; }
+  .tabs__nav button { white-space: nowrap; flex: 0 0 auto; }
+}
 
 .tabs__panels { display: grid; min-height: 320px; }
 .tabs__pair {
