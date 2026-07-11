@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const transitionLogo = document.querySelector("[data-page-transition-logo]");
   if (transitionOverlay) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const WIPE_DURATION = 320;
-    const NAVIGATE_DELAY = 420;
+    const SAFETY_FALLBACK = 2500; // falls 'complete' nie feuert
+    const COVER_DURATION = 340; // nur Wipe schließen, kein Logo (spielt nur einmal, bei Ankunft)
 
     let logoAnim = null;
     if (window.lottie && transitionLogo) {
@@ -18,8 +18,26 @@ document.addEventListener("DOMContentLoaded", () => {
         autoplay: false,
         path: "/assets/lottie/page-transition-loader-v2.json",
       });
-      logoAnim.setSpeed(2);
+      logoAnim.setSpeed(2.5);
     }
+
+    // Logo einmal komplett durchlaufen lassen, dann callback
+    const playLogoOnce = (onDone) => {
+      if (!logoAnim) {
+        onDone();
+        return;
+      }
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        clearTimeout(fallback);
+        onDone();
+      };
+      const fallback = setTimeout(finish, SAFETY_FALLBACK);
+      logoAnim.addEventListener("complete", finish, { once: true });
+      logoAnim.goToAndPlay(0, true);
+    };
 
     const isInternalLink = (link) => {
       if (!link || !link.href) return false;
@@ -31,21 +49,26 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     };
 
-    // Reveal: neue Seite ist bereits geladen, Overlay + Logo waren instant sichtbar gesetzt (kein Flash)
+    const reveal = () => {
+      requestAnimationFrame(() => {
+        transitionOverlay.classList.add("is-animating");
+        if (transitionLogo) transitionLogo.classList.add("is-animating");
+        requestAnimationFrame(() => {
+          transitionOverlay.classList.remove("is-covering");
+          if (transitionLogo) transitionLogo.classList.remove("is-visible");
+        });
+      });
+    };
+
+    // Ankunft: neue Seite ist bereits geladen, Overlay + Logo waren instant sichtbar gesetzt (kein Flash).
+    // Logo läuft einmal komplett durch, erst danach öffnet sich der Balken.
     if (sessionStorage.getItem("hbw-transition") === "1") {
       sessionStorage.removeItem("hbw-transition");
       if (reduceMotion) {
         transitionOverlay.classList.remove("is-covering");
         if (transitionLogo) transitionLogo.classList.remove("is-visible");
       } else {
-        requestAnimationFrame(() => {
-          transitionOverlay.classList.add("is-animating");
-          if (transitionLogo) transitionLogo.classList.add("is-animating");
-          requestAnimationFrame(() => {
-            transitionOverlay.classList.remove("is-covering");
-            if (transitionLogo) transitionLogo.classList.remove("is-visible");
-          });
-        });
+        playLogoOnce(reveal);
       }
     }
 
@@ -61,13 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Nur der Balken schließt sich – das Logo läuft nur einmal, bei der Ankunft auf der neuen Seite
       transitionOverlay.classList.add("is-animating", "is-covering");
-      if (transitionLogo) transitionLogo.classList.add("is-animating", "is-visible");
-      if (logoAnim) logoAnim.goToAndPlay(0, true);
 
       setTimeout(() => {
         window.location.href = link.href;
-      }, NAVIGATE_DELAY);
+      }, COVER_DURATION);
     });
   }
 
