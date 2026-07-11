@@ -17,20 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Tabs component (Werte / Feature tabs)
+  // Tabs component (Werte / Feature tabs) – Text + Bild als ein Element
   document.querySelectorAll("[data-tabs]").forEach((tabsEl) => {
     const buttons = tabsEl.querySelectorAll("[data-tab-btn]");
-    const panels = tabsEl.querySelectorAll("[data-tab-panel]");
-    const images = tabsEl.querySelectorAll("[data-tab-image]");
+    const pairs = tabsEl.querySelectorAll("[data-tab-pair]");
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const key = btn.getAttribute("data-tab-btn");
         buttons.forEach((b) => b.classList.toggle("is-active", b === btn));
-        panels.forEach((p) =>
-          p.classList.toggle("is-active", p.getAttribute("data-tab-panel") === key)
-        );
-        images.forEach((i) =>
-          i.classList.toggle("is-active", i.getAttribute("data-tab-image") === key)
+        pairs.forEach((p) =>
+          p.classList.toggle("is-active", p.getAttribute("data-tab-pair") === key)
         );
       });
     });
@@ -65,6 +61,37 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     counters.forEach((el) => observer.observe(el));
   }
+
+  // Rechtsgebiete-Liste (Anwaltsseiten): nach 6 Einträgen einklappen
+  document.querySelectorAll(".profile-areas").forEach((list) => {
+    const limit = 6;
+    const items = Array.from(list.children).filter((el) => el.tagName === "LI");
+    if (items.length <= limit) return;
+
+    const hiddenItems = items.slice(limit);
+    const collapse = document.createElement("div");
+    collapse.className = "profile-areas__collapse";
+    const inner = document.createElement("div");
+    inner.className = "profile-areas__collapse-inner";
+    hiddenItems.forEach((li) => inner.appendChild(li));
+    collapse.appendChild(inner);
+    list.appendChild(collapse);
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "profile-areas__toggle";
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = '<span>Mehr anzeigen</span><i class="ri-arrow-down-s-line" aria-hidden="true"></i>';
+    list.appendChild(toggle);
+
+    toggle.addEventListener("click", () => {
+      const isOpen = !collapse.classList.contains("is-open");
+      collapse.classList.toggle("is-open", isOpen);
+      toggle.classList.toggle("is-open", isOpen);
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      toggle.querySelector("span").textContent = isOpen ? "Weniger anzeigen" : "Mehr anzeigen";
+    });
+  });
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;

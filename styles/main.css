@@ -132,9 +132,9 @@ a {
   align-items: center;
   color: var(--petrol-900);
 }
-.brand__wordmark { height: 44px; width: auto; display: block; }
+.brand__wordmark { height: 56px; width: auto; display: block; }
 @media (max-width: 480px) {
-  .brand__wordmark { height: 36px; }
+  .brand__wordmark { height: 42px; }
 }
 
 .nav {
@@ -295,35 +295,30 @@ a {
 .tabs__nav button.is-active { opacity: 1; }
 .tabs__nav button.is-active::after { transform: scaleX(1); }
 
-.tabs__panels { display: grid; grid-template-columns: 1fr 1fr; min-height: 320px; }
-@media (max-width: 860px) { .tabs__panels { grid-template-columns: 1fr; } }
-.tabs__panel {
+.tabs__panels { display: grid; min-height: 320px; }
+.tabs__pair {
   grid-column: 1;
   grid-row: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  opacity: 0;
+  transform: translateX(-14px);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.tabs__pair.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+@media (max-width: 860px) { .tabs__pair { grid-template-columns: 1fr; } }
+.tabs__panel {
   display: flex;
   background: var(--petrol-900);
   padding: 40px;
   flex-direction: column;
   justify-content: center;
   gap: 14px;
-  opacity: 0;
-  transform: translateX(-14px);
-  pointer-events: none;
-  transition: opacity 0.45s ease, transform 0.45s ease;
 }
-.tabs__panel.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
 .tabs__image {
-  grid-column: 2;
-  grid-row: 1;
   position: relative;
   display: block;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.tabs__image.is-active { opacity: 1; }
-@media (max-width: 860px) {
-  .tabs__panel { grid-row: 1; grid-column: 1; }
-  .tabs__image { grid-row: 2; grid-column: 1; }
 }
 .tabs__image::after {
   content: "";
@@ -484,6 +479,36 @@ a {
   font-size: 0.92rem;
   font-weight: var(--fw-semibold);
 }
+.profile-areas__collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(.4,0,.2,1);
+}
+.profile-areas__collapse-inner {
+  overflow: hidden;
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+}
+.profile-areas__collapse.is-open { grid-template-rows: 1fr; }
+.profile-areas__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  margin-top: 2px;
+  padding: 4px 2px;
+  background: none;
+  border: none;
+  font-family: var(--font-base);
+  font-size: 0.88rem;
+  font-weight: var(--fw-semibold);
+  color: var(--teal-500);
+  cursor: pointer;
+}
+.profile-areas__toggle i { font-size: 1.1rem; transition: transform 0.35s ease; }
+.profile-areas__toggle.is-open i { transform: rotate(180deg); }
+.profile-areas__toggle:hover { color: var(--petrol-900); }
 
 /* ---------- Profile contact / secretariat (dark) ---------- */
 .profile-contact {
