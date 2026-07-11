@@ -582,7 +582,7 @@ a {
 .page-transition {
   position: fixed;
   inset: 0;
-  z-index: 9998;
+  z-index: 9997;
   background: var(--petrol-900);
   pointer-events: none;
   transform: scaleY(0);
@@ -591,6 +591,20 @@ a {
 }
 .page-transition.is-animating { transition: transform 0.5s cubic-bezier(.76,0,.24,1); }
 .page-transition.is-covering { transform: scaleY(1); }
+
+.page-transition__logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+}
+.page-transition__logo.is-animating { transition: opacity 0.3s ease; }
+.page-transition__logo.is-visible { opacity: 1; }
 
 /* ---------- Utility ---------- */
 .text-center { text-align: center; }

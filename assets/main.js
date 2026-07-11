@@ -1,11 +1,23 @@
 // HBW – shared site behaviour (vanilla JS, no dependencies)
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Page transitions (Brand-Wipe in Petrol, wie ein Dach, das sich schließt/öffnet)
+  // Page transitions (Brand-Wipe in Petrol + animierte Bildmarke)
   const transitionOverlay = document.querySelector("[data-page-transition]");
+  const transitionLogo = document.querySelector("[data-page-transition-logo]");
   if (transitionOverlay) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const DURATION = 480;
+    const WIPE_DURATION = 480;
+
+    let logoAnim = null;
+    if (window.lottie && transitionLogo) {
+      logoAnim = window.lottie.loadAnimation({
+        container: transitionLogo,
+        renderer: "svg",
+        loop: false,
+        autoplay: false,
+        path: "/assets/lottie/page-transition-loader.json",
+      });
+    }
 
     const isInternalLink = (link) => {
       if (!link || !link.href) return false;
@@ -17,14 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     };
 
+    // Reveal: neue Seite ist bereits geladen, Overlay + Logo waren instant sichtbar gesetzt (kein Flash)
     if (sessionStorage.getItem("hbw-transition") === "1") {
       sessionStorage.removeItem("hbw-transition");
       if (reduceMotion) {
         transitionOverlay.classList.remove("is-covering");
+        if (transitionLogo) transitionLogo.classList.remove("is-visible");
       } else {
         requestAnimationFrame(() => {
           transitionOverlay.classList.add("is-animating");
-          requestAnimationFrame(() => transitionOverlay.classList.remove("is-covering"));
+          if (transitionLogo) transitionLogo.classList.add("is-animating");
+          requestAnimationFrame(() => {
+            transitionOverlay.classList.remove("is-covering");
+            if (transitionLogo) transitionLogo.classList.remove("is-visible");
+          });
         });
       }
     }
@@ -35,14 +53,32 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!isInternalLink(link)) return;
       e.preventDefault();
       sessionStorage.setItem("hbw-transition", "1");
+
       if (reduceMotion) {
         window.location.href = link.href;
         return;
       }
-      transitionOverlay.classList.add("is-animating", "is-covering");
-      setTimeout(() => {
+
+      let navigated = false;
+      let fallbackTimer = null;
+      const navigateNow = () => {
+        if (navigated) return;
+        navigated = true;
+        if (fallbackTimer) clearTimeout(fallbackTimer);
         window.location.href = link.href;
-      }, DURATION);
+      };
+
+      transitionOverlay.classList.add("is-animating", "is-covering");
+      if (transitionLogo) transitionLogo.classList.add("is-animating", "is-visible");
+
+      if (logoAnim) {
+        logoAnim.goToAndPlay(0, true);
+        logoAnim.addEventListener("complete", navigateNow);
+        // Fester Sicherheits-Timeout (Lottie evtl. noch nicht geladen -> getDuration() unzuverlässig)
+        fallbackTimer = setTimeout(navigateNow, 4000);
+      } else {
+        fallbackTimer = setTimeout(navigateNow, WIPE_DURATION);
+      }
     });
   }
 

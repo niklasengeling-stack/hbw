@@ -16,9 +16,11 @@
 </head>
 <body>
 <div class="page-transition" data-page-transition aria-hidden="true"></div>
+<div class="page-transition__logo" data-page-transition-logo aria-hidden="true"></div>
 <script>
   if (sessionStorage.getItem("hbw-transition") === "1") {
     document.querySelector("[data-page-transition]").classList.add("is-covering");
+    document.querySelector("[data-page-transition-logo]").classList.add("is-visible");
   }
 </script>
 <div class="cursor-dot" aria-hidden="true"></div>
@@ -27,6 +29,7 @@
 {{CONTENT}}
 </main>
 {{FOOTER}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
 <script src="/assets/main.js"></script>
 </body>
 </html>
