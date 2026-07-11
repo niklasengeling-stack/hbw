@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const transitionLogo = document.querySelector("[data-page-transition-logo]");
   if (transitionOverlay) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const WIPE_DURATION = 480;
+    const WIPE_DURATION = 320;
+    const NAVIGATE_DELAY = 420;
 
     let logoAnim = null;
     if (window.lottie && transitionLogo) {
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         autoplay: false,
         path: "/assets/lottie/page-transition-loader.json",
       });
+      logoAnim.setSpeed(3.5);
     }
 
     const isInternalLink = (link) => {
@@ -59,26 +61,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      let navigated = false;
-      let fallbackTimer = null;
-      const navigateNow = () => {
-        if (navigated) return;
-        navigated = true;
-        if (fallbackTimer) clearTimeout(fallbackTimer);
-        window.location.href = link.href;
-      };
-
       transitionOverlay.classList.add("is-animating", "is-covering");
       if (transitionLogo) transitionLogo.classList.add("is-animating", "is-visible");
+      if (logoAnim) logoAnim.goToAndPlay(0, true);
 
-      if (logoAnim) {
-        logoAnim.goToAndPlay(0, true);
-        logoAnim.addEventListener("complete", navigateNow);
-        // Fester Sicherheits-Timeout (Lottie evtl. noch nicht geladen -> getDuration() unzuverlässig)
-        fallbackTimer = setTimeout(navigateNow, 4000);
-      } else {
-        fallbackTimer = setTimeout(navigateNow, WIPE_DURATION);
-      }
+      setTimeout(() => {
+        window.location.href = link.href;
+      }, NAVIGATE_DELAY);
     });
   }
 
