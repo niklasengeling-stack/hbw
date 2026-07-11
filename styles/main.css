@@ -547,6 +547,10 @@ a {
   object-position: center 18%;
   flex-shrink: 0;
 }
+.secretary-card__photo--placeholder {
+  background: var(--petrol-700);
+  border: 1px solid rgba(255,255,255,0.15);
+}
 .secretary-card__body { display: flex; flex-direction: column; justify-content: center; }
 .secretary-card__name { display: block; margin: 0 0 4px; font-size: 0.9rem; font-weight: var(--fw-semibold); color: var(--white); }
 .secretary-card a { display: block; font-size: 0.82rem; color: var(--sage-200); line-height: 1.5; }
