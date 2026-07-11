@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
         renderer: "svg",
         loop: false,
         autoplay: false,
-        path: "/assets/lottie/page-transition-loader.json",
+        path: "/assets/lottie/page-transition-loader-v2.json",
       });
-      logoAnim.setSpeed(3.5);
+      logoAnim.setSpeed(2);
     }
 
     const isInternalLink = (link) => {
